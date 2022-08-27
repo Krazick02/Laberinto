@@ -11,17 +11,23 @@
         background-color: orange   ;   
     }
 </style>
-<body onload="relog()">
+<body background-color="yellow" onload="relog()">
     <canvas id="mycanvas" width="1000" height="800"></canvas>  
 
     <script type ="text/javascript">
         var cv  =null;
         var ctx  = null;
-        var superX=240,superY=240;
+        var superX=0,superY=0;
         var player=null;
         var hormiguero=null;
         var cronometro;
         var obs=[];
+        var coords=[[0,40,20,760],
+                    [980,0,20,760],
+                    [100,0,900,20],
+                    [900,720,100,20],
+                    [0,780,1000,20]]
+                    ;
         var min=0;
         var seg=0;
         var direction='left';
@@ -41,12 +47,12 @@
              cv  =document.getElementById('mycanvas');
              ctx  = cv.getContext('2d');
              ctx.strokeRect(0,0,1000,1000);
-            player =new Cuadraro(superX,superY,40,40,'blue');
-            hormiguero =new Cuadraro(960,760,40,40,'red');
+            player =new Cuadraro(superX,superY,38,38,'blue');
+            hormiguero =new Cuadraro(960,740,40,40,'red');
             
 
-            for (var i = 0; i < 100; i++) {
-                var n=new Cuadraro(generateRandomInteger(920),generateRandomInteger(720),20,100,"white");
+            for (var i = 0; i < 5; i++) {
+                var n=new Cuadraro(coords[i][0],coords[i][1],coords[i][2],coords[i][3],"white");
                 obs.push(n);
             }
             hUP.src='hUP.jpeg';
@@ -69,7 +75,7 @@
             ctx.fillText("TIME : "+min+":"+seg,30,60);
 
 
-            for (var i = 0; i < 100; i++) {
+            for (var i = 0; i < 5; i++) {
                 obs[i].dibujar(ctx);
                 ctx.drawImage(wall,obs[i].x,obs[i].y,obs[i].w,obs[i].h);
             }
@@ -108,25 +114,25 @@
             if(direction=='rigth'){
                 player.x +=speed;
                 if(player.x >= 980){
-                    player.x = 0;
+                    player.x -=speed;
                 }
             }
             if(direction=='down'){
                 player.y +=speed;
                 if(player.y >= 780){
-                    player.y = 0;
+                    player.y -=speed;
                 }
             }
             if(direction=='up'){
                 player.y -=speed;
                 if(player.y <= 0){
-                    player.y = 780;
+                    player.y +=speed;
                 }
             }
             if(direction=='left'){
                 player.x -=speed;
                 if(player.x <= 0){
-                    player.x = 980;
+                    player.x+=speed;
                 }
             }
             if(player.se_tocan(hormiguero)){
