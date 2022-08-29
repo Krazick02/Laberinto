@@ -101,15 +101,15 @@
                 var n=new Cuadraro(coords[i][0],coords[i][1],coords[i][2],coords[i][3],"white");
                 obs.push(n);
             }
-            hUP.src='hUP.jpeg';
-            hDOWN.src='hDOWN.jpeg';
-            hRIGHT.src='hRIGTH.jpeg';
-            hLEFT.src='hLEFT.jpeg';
-            fin.src='fin.jpeg';
+            hUP.src='hUP.png';
+            hDOWN.src='hDOWN.png';
+            hRIGHT.src='hRIGTH.png';
+            hLEFT.src='hLEFT.png';
+            fin.src='fin.png';
             wall.src='wall.png';
             win.src='win.mp3';
             tema.src='tema.mp3';
-            //tema.play();
+            tema.play();
             paint();
         }
         function paint(){
@@ -129,7 +129,7 @@
 
             ctx.drawImage(fin,hormiguero.x,hormiguero.y,40,40);
             ctx.drawImage(fin,hormiguero2.x,hormiguero2.y,40,40);
-            ctx.drawImage(hLEFT,player.x,player.y,35,35);
+            //ctx.drawImage(hLEFT,player.x,player.y,35,35);
             
             if(direction=='rigth'){
                 ctx.drawImage(hRIGHT,player.x,player.y,35,35);
@@ -153,7 +153,7 @@
                 ctx.font="50px arial";             
                 ctx.fillText("P A U S E",400,380);
             }else{
-                //tema.play();
+                tema.play();
                 update();
             }
         }
@@ -192,7 +192,7 @@
                 ctx.fillText("Y O U  W I N",400,380);
                 ctx.font="30px arial";             
                 ctx.fillText("YOUR TIME WAS = "+min+" min "+seg+ "segs",300,450);
-                //win.play();
+                win.play();
             }
             obs.forEach(function(item,index,arr){
                 if(item.se_tocan(player)){
