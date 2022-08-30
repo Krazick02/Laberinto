@@ -21,8 +21,11 @@
         var player=null;
         var hormiguero=null;
         var hormiguero2=null;
+        var oso=null;
+        var oso2=null;
         var cronometro;
         var obs=[];
+        var dirr=['left','rigth','up','down'];
         var coords=[[0,0,10,800],
                     [990,0,10,770],
                     [0,0,1000,10],
@@ -76,6 +79,8 @@
         var min=0;
         var seg=0;
         var direction='left';
+        var dir01='left';
+        var dir02='left';
         var pause=false;
         var speed=3;           
         var fin= new Image();
@@ -83,6 +88,7 @@
         var hLEFT= new Image();
         var hDOWN= new Image();
         var hRIGHT= new Image();
+        var osoI= new Image();
         var wall= new Image();
         var win= new Audio();
         var tema= new Audio();
@@ -95,6 +101,9 @@
             player =new Cuadraro(superX,superY,35,35,'blue');
             hormiguero =new Cuadraro(960,750,40,40,'red');
             hormiguero2 =new Cuadraro(960,450,40,40,'red');
+            oso =new Cuadraro(700,500,35,35,'red');
+            oso2 =new Cuadraro(342,253,35,35,'red');
+            hormiguero2 =new Cuadraro(960,450,35,35,'red');
             
 
             for (var i = 0; i < 48; i++) {
@@ -109,6 +118,7 @@
             wall.src='wall.png';
             win.src='win.mp3';
             tema.src='tema.mp3';
+            osoI.src='osoI.png';
             tema.play();
             paint();
         }
@@ -129,8 +139,9 @@
 
             ctx.drawImage(fin,hormiguero.x,hormiguero.y,40,40);
             ctx.drawImage(fin,hormiguero2.x,hormiguero2.y,40,40);
-            //ctx.drawImage(hLEFT,player.x,player.y,35,35);
-            
+            ctx.drawImage(osoI,oso.x,oso.y,40,40);
+            ctx.drawImage(osoI,oso2.x,oso2.y,40,40);
+        
             if(direction=='rigth'){
                 ctx.drawImage(hRIGHT,player.x,player.y,35,35);
             }
@@ -160,27 +171,39 @@
         function update(){
             if(direction=='rigth'){
                 player.x +=speed;
-                if(player.x >= 980){
-                    player.x -=speed;
-                }
             }
             if(direction=='down'){
                 player.y +=speed;
-                if(player.y >= 780){
-                    player.y -=speed;
-                }
             }
             if(direction=='up'){
                 player.y -=speed;
-                if(player.y <= 0){
-                    player.y +=speed;
-                }
             }
             if(direction=='left'){
                 player.x -=speed;
-                if(player.x <= 0){
-                    player.x+=speed;
-                }
+            }
+            if(dir01=='rigth'){
+                oso.x +=speed;
+            }
+            if(dir01=='down'){
+                oso.y +=speed;
+            }
+            if(dir01=='up'){
+                oso.y -=speed;
+            }
+            if(dir01=='left'){
+                oso.x -=speed;
+            }
+            if(dir02=='rigth'){
+                oso2.x +=speed;
+            }
+            if(dir02=='down'){
+                oso2.y +=speed;
+            }
+            if(dir02=='up'){
+                oso2.y -=speed;
+            }
+            if(dir02=='left'){
+                oso2.x -=speed;
             }
             if(player.se_tocan(hormiguero) || player.se_tocan(hormiguero2)){
                 clearInterval(cronometro);
@@ -192,35 +215,64 @@
                 ctx.fillText("Y O U  W I N",400,380);
                 ctx.font="30px arial";             
                 ctx.fillText("YOUR TIME WAS = "+min+" min "+seg+ "segs",300,450);
+                ctx.fillText("Press R to restart",450,470);
                 win.play();
             }
             obs.forEach(function(item,index,arr){
                 if(item.se_tocan(player)){
                     if(direction=='rigth'){
-                    player.x -=speed;
-                    if(player.x >= 980){
-                        player.x = 0;
+                        player.x -=speed;
+                    }
+                    if(direction=='down'){
+                        player.y -=speed;
+                    }
+                    if(direction=='up'){
+                        player.y +=speed;
+                    }
+                    if(direction=='left'){
+                        player.x +=speed;
                     }
                 }
-                if(direction=='down'){
-                    player.y -=speed;
-                    if(player.y >= 780){
-                        player.y = 0;
+            });
+
+            obs.forEach(function(item,index,arr){
+                if(item.se_tocan(oso)){
+                    console.log("dir 1="+dir01);
+                    
+        
+                    if(dir01=='rigth'){
+                        oso.x -=speed;
                     }
-                }
-                if(direction=='up'){
-                    player.y +=speed;
-                    if(player.y <= 0){
-                        player.y = 780;
+                    if(dir01=='down'){
+                        oso.y -=speed;
                     }
-                }
-                if(direction=='left'){
-                    player.x +=speed;
-                    if(player.x <= 0){
-                        player.x = 980;
+                    if(dir01=='up'){
+                        oso.y +=speed;
                     }
+                    if(dir01=='left'){
+                        oso.x +=speed;
+                    }
+                    dir01=dirr[generateRandomInteger(3)];
+                    console.log("dir 1.1="+dir01);
                 }
-                }
+            });
+            obs.forEach(function(item,index,arr){
+                console.log("dir 2="+dir02);
+        
+                    if(dir02=='rigth'){
+                        oso2.x -=speed;
+                    }
+                    if(dir02=='down'){
+                        oso2.y -=speed;
+                    }
+                    if(dir02=='up'){
+                        oso2.y +=speed;
+                    }
+                    if(dir02=='left'){
+                        oso2.x +=speed;
+                    }
+                    dir02=dirr[generateRandomInteger(3)];
+                    console.log("dir 2.1="+dir02);
             });
 
         }
